@@ -1,0 +1,41 @@
+name: Build
+
+on:
+  pull_request:
+    branches:
+    - main
+  push:
+    branches:
+    - main
+
+jobs:
+  build:
+    name: Build
+    runs-on: ubuntu-22.04
+    steps:
+    -
+      name: Checkout
+      uses: actions/checkout@v3
+    -
+      name: Cargo Target Cache
+      uses: actions/cache@v3
+      continue-on-error: false
+      with:
+        path: |
+          ~/.cargo/bin/
+          ~/.cargo/registry/index/
+          ~/.cargo/registry/cache/
+          ~/.cargo/git/db/
+          target/
+        key: ${{ runner.os }}-cargo-${{ hashFiles('**/Cargo.lock') }}
+        restore-keys: ${{ runner.os }}-cargo-
+    -
+      name: Lint
+      run: |
+        cargo fmt --all -- --check
+    -
+      name: Cargo Build
+      run: cargo build
+    -
+      name: Cargo Test
+      run: cargo test

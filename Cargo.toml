@@ -1,0 +1,15 @@
+[package]
+name = "football_data"
+version = "0.1.0"
+edition = "2021"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+serde = { version = "1", features = ["derive"] }
+reqwest = { version = "0.11", default-features = false, features = ["json", "rustls-tls"] }
+
+[dev-dependencies]
+tokio = { version = "1", features = ["rt", "macros"] }
+serde_json = { version = "1" }
+wiremock = "0.5.13"
